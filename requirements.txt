@@ -1,0 +1,5 @@
+numpy
+scipy
+influxdb-client[ciso]~=1.30.0
+matplotlib
+pandas
