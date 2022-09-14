@@ -10,4 +10,4 @@ NUM_DISCRETE = 255
 NUM_WIENER_STEPS = 10
 # Should be independent of units
 MIN_THROUGHPUT = 0
-MAX_THROUGHPUT = 1250  # Megabytes
+MAX_THROUGHPUT = 10  # Gigabits

@@ -42,11 +42,12 @@ class PoissonDistribution:
     def mean(self):
         return np.sum(self.inputs * self.distribution)
 
-    def update_distribution(self, time, n_bytes):
-        n_bytes = floor(n_bytes)
-        if n_bytes == 0:
+    def update_distribution(self, time, n_units):
+        n_units = floor(n_units)
+        if n_units == 0:
             return
-        intermediates = self.distribution * np.power((time * self.inputs), n_bytes) \
-            / np.math.factorial(n_bytes)
-        intermediates *= np.exp(-time * self.inputs)
+        rate_time = time * self.inputs
+        intermediates = self.distribution * np.power(rate_time, n_units) \
+            / np.math.factorial(n_units)
+        intermediates *= np.exp(-rate_time)
         self.distribution = intermediates / np.sum(intermediates)
