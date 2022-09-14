@@ -40,9 +40,20 @@ class PoissonDistribution:
         self.distribution = self.brownian_motion[-1]
 
     def mean(self):
+        """
+        Calculates the mean of the Bayesian-estimated distribution
+
+        :return: mean (float)
+        """
         return np.sum(self.inputs * self.distribution)
 
     def update_distribution(self, time, n_units):
+        """
+        Does a Bayesian update of the distribution
+
+        :param time: (fixed) elapsed time in seconds
+        :param n_units: number of "units" processed in elapsed time. Unit is defined by constants.py e.g. bit, MByte
+        """
         n_units = floor(n_units)
         if n_units == 0:
             return

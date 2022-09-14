@@ -3,7 +3,7 @@ import constants as cons
 import pandas as pd
 
 
-class InfluxData:
+class InfluxDataMini:
     """
     Class for querying InfluxDB or reading already-downloaded
     data from InfluxDB.

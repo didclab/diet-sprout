@@ -11,3 +11,6 @@ NUM_WIENER_STEPS = 10
 # Should be independent of units
 MIN_THROUGHPUT = 0
 MAX_THROUGHPUT = 10  # Gigabits
+
+MAX_PARALLELISM = 30
+MAX_CONCURRENCY = 30
