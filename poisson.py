@@ -39,6 +39,8 @@ class PoissonDistribution:
         self.brownian_motion = brownian(og_distribution, num_steps, dt, delta)
         self.distribution = self.brownian_motion[-1]
 
+        self.num_updates = 0
+
     def mean(self):
         """
         Calculates the mean of the Bayesian-estimated distribution
