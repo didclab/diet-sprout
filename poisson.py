@@ -32,12 +32,16 @@ class PoissonDistribution:
         og_distribution = np.array([1 / num_discrete for _ in range(num_discrete)])
         self.num_discrete = num_discrete
 
-        t = 60  # seconds
-        dt = t / num_steps
-        delta = 4 / (num_discrete * num_steps)
+        if num_steps > 0:
+            t = 60  # seconds
+            dt = t / num_steps
+            delta = 0.5 / (num_discrete * num_steps)
 
-        self.brownian_motion = brownian(og_distribution, num_steps, dt, delta)
-        self.distribution = self.brownian_motion[-1]
+            self.brownian_motion = brownian(og_distribution, num_steps, dt, delta)
+            self.distribution = np.abs(self.brownian_motion[:, -1])
+            self.distribution /= np.linalg.norm(self.distribution)
+        else:
+            self.distribution = og_distribution
 
         self.num_updates = 0
 

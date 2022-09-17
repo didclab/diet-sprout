@@ -36,6 +36,9 @@ class ParameterDistributionMap:
         self.total_updates = 0
 
     def get_best_parameter(self):
+        return self.recommendation
+
+    def calculate_best_parameter(self):
         best_parameter = (0, 0)
         mean = 0
 
@@ -61,16 +64,30 @@ class ParameterDistributionMap:
 
         distribution.update_distribution(time, n_units)
 
-        self.recommendation = self.get_best_parameter()
+        self.recommendation = self.calculate_best_parameter()
         self.total_updates += 1
+
+
+def simple_apply(x, dist_map):
+    p = x['parallelism']
+    c = x['concurrency']
+    n_units = (x['throughput'] * 1e-9 / 8) * 30
+    dist_map.update_parameter_dist(p, c, n_units)
+    return x
 
 
 def main():
     data_handler = InfluxDataMini(file_name='pivot.csv')
-    data = data_handler.read_file()
+    data = data_handler.prune_df(data_handler.read_file())
 
-    print(data[2:].head())
-    print(data.shape)
+    parameter_dist_map = ParameterDistributionMap()
+    print(parameter_dist_map.get_best_parameter())
+
+    live_data = data[(data['parallelism'] > 0.) & (data['throughput'] > 0.)].filter(
+        items=['parallelism', 'concurrency', 'throughput']
+    )
+    live_data.apply(lambda x: simple_apply(x, parameter_dist_map), axis=1)
+    print(parameter_dist_map.get_best_parameter())
 
 
 if __name__ == "__main__":
